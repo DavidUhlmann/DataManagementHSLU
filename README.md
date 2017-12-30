@@ -1,4 +1,4 @@
 # DataManagementHSLU
-Descriptive Code SQL and some Python scripts using python-sql 0.9 to demonstrate the ability to work with databases.
-Sample database has been taken from website: http://www.sample-videos.com/download-sample-sql.php and uploaded here.
+Descriptive Code SQL and some Python scripts using python libaries like sqlite3 and slqAlchemy.
+There will be two ways. One with SQLite and the second (more secure way) with SQLAlchemy.
 All scripts are self written and not copied from third party websites.
