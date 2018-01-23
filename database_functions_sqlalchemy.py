@@ -46,8 +46,7 @@ def new_member(databasename, first_value, last_value, birth_value, email_value, 
 
     engine = create_engine('sqlite:///' + databasename)
     connection = engine.connect()
-
-
+    
     # loads all the tables. this is important for further database input
     member = Table('member', metadata, autoload=True, autoload_with=engine)
     contact = Table('contact', metadata, autoload=True, autoload_with=engine)
@@ -57,32 +56,18 @@ def new_member(databasename, first_value, last_value, birth_value, email_value, 
 
     ins_member = member.insert().values(first_name=first_value, last_name=last_value, date_birth=birth_value, pk_member_id=pk_member,
         fk_contact_id=pk_contact, fk_address_id=pk_address, timestamp_creation=timestamp, timestamp_update=timestamp)
-
     ins_contact = contact.insert().values(pk_contact_id=pk_contact, emailaddress=email_value, phonenumber=phone_value,
         fk_member_id=pk_member)
-
     ins_plz = plz.insert().values(pk_plz_id=pk_plz, plz=plz_value)
-
     ins_city = city.insert().values(pk_city_id=pk_city, city=city_value, fk_plz_id=pk_plz)
-
     ins_address = address.insert().values(pk_address_id=pk_address, street=street_value, street_num=street_num_value,
         fk_member_id=pk_member)
 
     connection.execute(ins_member)
-    #print(str(ins_member)) # only for debuggin reasonss
-
     connection.execute(ins_contact)
-    #print(str(ins_contact))
-
     connection.execute(ins_plz)
-    #print(str(ins_plz))
-
     connection.execute(ins_city)
-    #print(str(ins_city))
-
     connection.execute(ins_address)
-    #print(str(ins_address))
-
 
 def column_tolist(connection, table, position):
     # This functions checks if values are already in the table
@@ -91,7 +76,6 @@ def column_tolist(connection, table, position):
     results = rp.fetchall()
 
     itemlist = []
-
     for items in results:
         itemlist.append(items[position])
     return itemlist
