@@ -16,3 +16,8 @@ This rep includes files for:
 -> main script that runs the main function
 
 To use those files users have to install SQLAlchemy which is easiest done by a pip install: "pip install SQLAlchemy"
+
+Beside this users have to install the following modules:
+- pandas via pip 
+
+..or using something like Anaconda
