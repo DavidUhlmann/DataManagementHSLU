@@ -3,6 +3,7 @@ from random import randint
 import datetime
 import os
 from sqlalchemy import MetaData, Table, create_engine
+from pandas import read_sql_query
 
 metadata = MetaData()
 
@@ -41,12 +42,13 @@ def check_file_loop(filename):
         filename = input('please enter an existing database inlcl .db <name.db>')
     return filename
 
-def new_member(databasename, first_value, last_value, birth_value, email_value, phone_value, plz_value, city_value, street_value, street_num_value, pk_member,
-               pk_contact, pk_address, pk_city, pk_plz, timestamp):
+def new_member(databasename, first_value, last_value, birth_value, email_value, phone_value, plz_value,
+                city_value, street_value, street_num_value, pk_member,
+                pk_contact, pk_address, pk_city, pk_plz, timestamp):
 
     engine = create_engine('sqlite:///' + databasename)
     connection = engine.connect()
-    
+
     # loads all the tables. this is important for further database input
     member = Table('member', metadata, autoload=True, autoload_with=engine)
     contact = Table('contact', metadata, autoload=True, autoload_with=engine)
@@ -56,10 +58,14 @@ def new_member(databasename, first_value, last_value, birth_value, email_value, 
 
     ins_member = member.insert().values(first_name=first_value, last_name=last_value, date_birth=birth_value, pk_member_id=pk_member,
         fk_contact_id=pk_contact, fk_address_id=pk_address, timestamp_creation=timestamp, timestamp_update=timestamp)
+
     ins_contact = contact.insert().values(pk_contact_id=pk_contact, emailaddress=email_value, phonenumber=phone_value,
         fk_member_id=pk_member)
+
     ins_plz = plz.insert().values(pk_plz_id=pk_plz, plz=plz_value)
+
     ins_city = city.insert().values(pk_city_id=pk_city, city=city_value, fk_plz_id=pk_plz)
+
     ins_address = address.insert().values(pk_address_id=pk_address, street=street_value, street_num=street_num_value,
         fk_member_id=pk_member)
 
@@ -76,6 +82,7 @@ def column_tolist(connection, table, position):
     results = rp.fetchall()
 
     itemlist = []
+
     for items in results:
         itemlist.append(items[position])
     return itemlist
@@ -91,3 +98,13 @@ def check_input(itemlist, uservalue):
     while check_value(itemlist, uservalue) == False:
         uservalue = randint(100000, 999999)
     return uservalue
+
+def connection_database(databasename):
+    engine = create_engine('sqlite:///' + databasename)
+    connection = engine.connect()
+    return connection
+
+def connection_engine(databasename):
+    engine = create_engine('sqlite:///' + databasename)
+    return engine
+
