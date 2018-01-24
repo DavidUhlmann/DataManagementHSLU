@@ -1,6 +1,5 @@
 # DataManagementHSLU
 Descriptive Code SQL and some Python scripts using python libaries like slqAlchemy.
-Code will be SQLAlchemy primarily because it somewhat protects from SQLInjection by default.
 All scripts are self written and not copied from third party websites.
 
 For the main part SQL Alchemy will be used instead of SQLite. It protects against SQLInjection by default, because raw SQL input would lead so failures.
