@@ -14,10 +14,6 @@ def create_database(name_database):
                    Column('fk_contact_id', ForeignKey('contact.pk_contact_id')),
                    Column('fk_address_id', ForeignKey('address.pk_address_id')), )
 
-    # bei allen Spalten später noch nullable=False einfügen
-    # wenn das Programm ready ist damit alle Spalten ausgefüllt werden
-    # das erstmal aus testzwecken nicht gemacht!
-
     contact = Table('contact', metadata, Column('pk_contact_id', Integer(), primary_key=True),
                     Column('emailaddress', String(255), nullable=False, unique=True),
                     Column('phonenumber', Integer(), nullable=False, unique=True),

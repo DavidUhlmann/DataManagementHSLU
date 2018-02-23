@@ -2,6 +2,7 @@ from sqlalchemy.sql import select
 from random import randint
 import datetime
 import os
+from sqlalchemy.sql import update
 from sqlalchemy import MetaData, Table, create_engine
 from pandas import read_sql_query
 
@@ -12,10 +13,10 @@ def typecheck(inputvalue, inputkind):
     if inputkind == "str":
         try:
             int(inputvalue) / 2
-            #print('value is a number')
+            # print('value is a number')
             return True
         except:
-            #print('value is a string, thank you ')
+            # print('value is a string, thank you ')
             return False
     elif inputkind == "int":
         try:
@@ -38,8 +39,8 @@ def check_file_exists(filename):
     return os.path.isfile(filename)
 
 def check_file_loop(filename):
-    while check_file_exists(filename) == False:
-        filename = input('please enter an existing database inlcl .db <name.db>')
+    while check_file_exists(filename) is False:
+        filename = input('please enter an existing database incl .db <name.db>')
     return filename
 
 def new_member(databasename, first_value, last_value, birth_value, email_value, phone_value, plz_value,
@@ -58,14 +59,10 @@ def new_member(databasename, first_value, last_value, birth_value, email_value, 
 
     ins_member = member.insert().values(first_name=first_value, last_name=last_value, date_birth=birth_value, pk_member_id=pk_member,
         fk_contact_id=pk_contact, fk_address_id=pk_address, timestamp_creation=timestamp, timestamp_update=timestamp)
-
     ins_contact = contact.insert().values(pk_contact_id=pk_contact, emailaddress=email_value, phonenumber=phone_value,
         fk_member_id=pk_member)
-
     ins_plz = plz.insert().values(pk_plz_id=pk_plz, plz=plz_value)
-
     ins_city = city.insert().values(pk_city_id=pk_city, city=city_value, fk_plz_id=pk_plz)
-
     ins_address = address.insert().values(pk_address_id=pk_address, street=street_value, street_num=street_num_value,
         fk_member_id=pk_member)
 
@@ -99,6 +96,11 @@ def check_input(itemlist, uservalue):
         uservalue = randint(100000, 999999)
     return uservalue
 
+def ask_user_database():
+    database_user = input('please input the database name your would like <member.db> to edit: ')
+    databasename = inputcheck(database_user, 'str')
+    return databasename
+
 def connection_database(databasename):
     engine = create_engine('sqlite:///' + databasename)
     connection = engine.connect()
@@ -107,4 +109,64 @@ def connection_database(databasename):
 def connection_engine(databasename):
     engine = create_engine('sqlite:///' + databasename)
     return engine
+
+def check_item_list(listcheck, item):
+    if item in listcheck:
+        return True
+    else:
+        return False
+
+def check_item_loop(listcheck, value_check):
+    item = input('Please anter a valid {}: '.format(value_check))
+    while check_item_list(listcheck, item) is False:
+        item = input('Please enter a valid table')
+    return item
+
+# def filter_table(table_manipulate, column_change, change_value, connection):
+#     '''returns primary keys that are influenced by the change to manipulate a possible timestamp'''
+#     outputlist = []
+#
+#     # hier muss die Abfrage zum primary key rein -> diese dann unten einbauen
+#
+#
+#     # hier noch den primary key via Abfrage rausfinden
+#     s = select([table_filter]).where(table_filter.c[column_filter].like(value_filter))
+#     rp = connection.execute(s)
+#     for record in rp.fetchall():
+#         outputlist.append(table_filter.c.primary_key) # hier statt primary key dann die Abfrage
+#
+#     return outputlist
+
+def update_timestamps(timestamp_word_string ,table_manipulate, column_change, change_value, timestamp,
+                      connection):
+
+    # <class 'sqlalchemy.sql.schema.Table'> table object
+
+    # try:
+    #     list_values = table_manipulate.columns.keys() # must be SQL Alchemy table object
+    # except:
+    #     if type(table_manipulate) != "<class 'sqlalchemy.sql.schema.Table'> table object":
+    #         print('might not be SQL Alchemy table object, please check')
+    #         print('script will terminate now..')
+    #         quit()
+    # finally:
+    #     print('something went wrong, program will quit now')
+    #     quit()
+
+    # 1. Liste der Spaltennamen festlegen OK
+    # 2. prüfen ob das Wort vorkommt Ok
+    # 3. wenn nein function abbbrechen/return none
+    # 4. Wenn ja, die Tabelle mit dem change value in der entsprechenden Spalte filtern
+    # 5. Timtestamp column entsprechend aktualisieren
+
+    list_values = table_manipulate.columns.keys() # check weiter oben kommt live wenns läuft
+    timestamp_column = [value for value in list_values if timestamp_word_string in value]
+
+    # checks if list contains any items and exits code
+    if len(list_values) > 0:
+        s = select([table_manipulate]).where(table_manipulate.c[column_change].like(change_value))
+        result = connection.execute(s)
+        u = update(table_manipulate).where(table_manipulate.c[column_change] != 'testvalue')
+        u = u.values({final_change_table.c[columns_change]: timestamp})
+        result = connection.execute(u)
 

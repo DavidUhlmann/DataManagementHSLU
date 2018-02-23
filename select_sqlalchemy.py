@@ -1,9 +1,11 @@
+# Script that provides all kinds of select functions
+
 from sqlalchemy.sql import select
 from sqlalchemy import create_engine, MetaData, Table
-from datetime import datetime
+#from datetime import datetime
 import time
 from pandas import DataFrame, read_sql_query
-from create_database_sqlalchemy import create_database
+#from create_database_sqlalchemy import create_database
 from database_functions_sqlalchemy import new_member, column_tolist, check_input, check_file_loop
 from database_functions_sqlalchemy import inputcheck, connection_database, connection_engine, typecheck
 
@@ -53,7 +55,6 @@ def list_tables():
         tables = tables.lower()
     return tables
 
-
 def tables_printing(list_tables, connection):
     for item in list_tables:
         try:
@@ -83,11 +84,11 @@ def action_dict(operator, connection, list_tables, timestamp):
         'csv': lambda: tables_csv(list_tables, connection, timestamp),
     }.get(operator, lambda: None)()
 
-def select_data():
-    '''
-    Main function inside this script
-    Users can do several things like view, export to csv ect.
-    '''
+# select functions... tables and such stuff has to be taken out of those
+# will be done if all functions are ready
+
+def select_whole_tables():
+    # this functions takes a whole table inside database
     database_raw = input('Please enter databasename like <name.db>: ')
     databasename = inputcheck(database_raw, 'str')
     engine = create_engine('sqlite:///' + databasename)
