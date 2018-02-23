@@ -10,7 +10,6 @@ This rep includes files for:
 - adding a user
 - selecting/searching for a member
 - manipulating userdata
-- deleting a member from database (not advisable but has to be done from time to time)
 - a general file that holds all kinds of functions
 -> main script that runs the main function
 
