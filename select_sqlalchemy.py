@@ -2,10 +2,8 @@
 
 from sqlalchemy.sql import select
 from sqlalchemy import create_engine, MetaData, Table
-#from datetime import datetime
 import time
 from pandas import DataFrame, read_sql_query
-#from create_database_sqlalchemy import create_database
 from database_functions_sqlalchemy import new_member, column_tolist, check_input, check_file_loop
 from database_functions_sqlalchemy import inputcheck, connection_database, connection_engine, typecheck
 
@@ -79,7 +77,6 @@ def tables_csv(list_tables, connection, timestamp):
 # this switch emulation has been taken from Dan Baders Book: Python tricks p.264/365
 def action_dict(operator, connection, list_tables, timestamp):
     return{
-        'watch': lambda: (list_tables, connection),
         'excel': lambda: tables_excel(list_tables, connection, timestamp),
         'csv': lambda: tables_csv(list_tables, connection, timestamp),
     }.get(operator, lambda: None)()
@@ -87,10 +84,9 @@ def action_dict(operator, connection, list_tables, timestamp):
 # select functions... tables and such stuff has to be taken out of those
 # will be done if all functions are ready
 
-def select_whole_tables():
+def select_whole_tables(db_name):
     # this functions takes a whole table inside database
-    database_raw = input('Please enter databasename like <name.db>: ')
-    databasename = inputcheck(database_raw, 'str')
+    databasename = inputcheck(db_name, 'str')
     engine = create_engine('sqlite:///' + databasename)
     connection = engine.connect()
 
@@ -119,7 +115,7 @@ def select_whole_tables():
     tables_userchoice = list_tables()
 
     print('Input what you would like to do with tables...')
-    action = input('please choose: watch, excel, csv')
+    action = input('please choose: excel, csv')
 
     try:
         action_dict(action, connection, tables_userchoice, now)

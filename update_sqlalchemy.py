@@ -59,7 +59,12 @@ def print_table(dictionary_columns):
 
     return keylist
 
-if __name__ == '__main__':
+def update_members_database(databasename):
+
+    # this functions takes a whole table inside database
+    databasename = inputcheck(databasename, 'str')
+    engine = create_engine('sqlite:///' + databasename)
+    connection = engine.connect()
 
     timestamp = datetime.now
     keyword_timestamp_update = 'timestamp_update'

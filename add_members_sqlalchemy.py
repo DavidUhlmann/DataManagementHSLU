@@ -1,6 +1,7 @@
 """
 This script uses SQLAlchemy to insert, update and delete members inside a given database
 """
+
 from random import randint
 import datetime as dt
 from random import randint
@@ -13,16 +14,15 @@ from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.sql import select
 
 from create_database_sqlalchemy import create_database
-from database_functions import new_member, column_tolist, check_input, check_file_loop, inputcheck
+from database_functions_sqlalchemy import new_member, column_tolist, check_input, check_file_loop, inputcheck
 
 now = dt.datetime.now()
 timestamp = datetime(now.year, now.month, now.day, now.hour, now.minute)
 metadata = MetaData()
 
-def add_member_database():
+def add_member_database(databasename):
     # checks if database exists in working directory and throws an err if it does not
-    db_nocheck = input('please enter a database name like <test.db>: ')
-    database = check_file_loop(db_nocheck)
+    database = check_file_loop(databasename)
 
     # Code to access database and assign values to it
     create_database(database)
@@ -37,6 +37,7 @@ def add_member_database():
         quit()
 
     # loads all the tables. this is important for further database input
+    # CHECK AT THE END WHAT PART IS NOT NEEDED... table HERE or within the function
     member = Table('member', metadata, autoload=True, autoload_with=engine)
     contact = Table('contact', metadata, autoload=True, autoload_with=engine)
     plz = Table('plz', metadata, autoload=True, autoload_with=engine)
