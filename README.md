@@ -2,8 +2,7 @@
 Descriptive Code SQL and some Python scripts using python libaries like slqAlchemy.
 All scripts are self written and not copied from third party websites.
 
-For the main part SQL Alchemy will be used instead of SQLite. It protects against SQLInjection by default, because raw SQL input would lead so failures.
-
+For the main part SQL Alchemy will be used instead of SQLite. It protects against SQLInjection by default.
 This rep includes files for:
 
 - creating a database using SQLAlchemy
