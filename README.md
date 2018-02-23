@@ -19,3 +19,6 @@ Beside this users have to install the following modules:
 - pandas via pip 
 
 ..or using something like Anaconda
+
+Pleas be advised that this code has been written for a university course. It still lacks some basic exception handling and update for timestamps. This code is by far not production ready and is only for illustrating issues.
+It still works if you run the main file, but does have some DRY weaknesses etc.
