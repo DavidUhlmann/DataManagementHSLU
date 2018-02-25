@@ -37,7 +37,6 @@ def add_member_database(databasename):
         quit()
 
     # loads all the tables. this is important for further database input
-    # CHECK AT THE END WHAT PART IS NOT NEEDED... table HERE or within the function
     member = Table('member', metadata, autoload=True, autoload_with=engine)
     contact = Table('contact', metadata, autoload=True, autoload_with=engine)
     plz = Table('plz', metadata, autoload=True, autoload_with=engine)
