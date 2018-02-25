@@ -122,42 +122,8 @@ def check_item_loop(listcheck, value_check):
         item = input('Please enter a valid table')
     return item
 
-# def filter_table(table_manipulate, column_change, change_value, connection):
-#     '''returns primary keys that are influenced by the change to manipulate a possible timestamp'''
-#     outputlist = []
-#
-#     # hier muss die Abfrage zum primary key rein -> diese dann unten einbauen
-#
-#
-#     # hier noch den primary key via Abfrage rausfinden
-#     s = select([table_filter]).where(table_filter.c[column_filter].like(value_filter))
-#     rp = connection.execute(s)
-#     for record in rp.fetchall():
-#         outputlist.append(table_filter.c.primary_key) # hier statt primary key dann die Abfrage
-#
-#     return outputlist
-
 def update_timestamps(timestamp_word_string ,table_manipulate, column_change, change_value, timestamp,
                       connection):
-
-    # <class 'sqlalchemy.sql.schema.Table'> table object
-
-    # try:
-    #     list_values = table_manipulate.columns.keys() # must be SQL Alchemy table object
-    # except:
-    #     if type(table_manipulate) != "<class 'sqlalchemy.sql.schema.Table'> table object":
-    #         print('might not be SQL Alchemy table object, please check')
-    #         print('script will terminate now..')
-    #         quit()
-    # finally:
-    #     print('something went wrong, program will quit now')
-    #     quit()
-
-    # 1. Liste der Spaltennamen festlegen OK
-    # 2. prüfen ob das Wort vorkommt Ok
-    # 3. wenn nein function abbbrechen/return none
-    # 4. Wenn ja, die Tabelle mit dem change value in der entsprechenden Spalte filtern
-    # 5. Timtestamp column entsprechend aktualisieren
 
     list_values = table_manipulate.columns.keys() # check weiter oben kommt live wenns läuft
     timestamp_column = [value for value in list_values if timestamp_word_string in value]
