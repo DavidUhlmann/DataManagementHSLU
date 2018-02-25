@@ -1,6 +1,5 @@
 '''
 This is the main file which takes functions from the other files
-
 '''
 from sqlalchemy.sql import delete
 from sqlalchemy.sql import update, select
