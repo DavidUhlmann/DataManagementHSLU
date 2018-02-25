@@ -36,7 +36,6 @@ def check_string_list(str, list):
     if any(x in str for x in list):
         return False
 
-# DAS HIER NOCH DURCH EINE LISTCOMP ERSETZEN - WORKINGSOLUTION!!
 def clean_column_names(list, keywords):
     testlist = []
     outputlist = []
@@ -117,35 +116,7 @@ def update_members_database(databasename):
     final_change_table = tables_key['key_'+str(table_change)]
     columns_change_final = final_change_table.c[columns_change]
 
-
-
-    # manipulating timestamps GEHT NOCH NICHT WEGEN KEYERROR
-    # DAS HIER UNTEN NOCH ZUM LAUFEN KRIEGEN WENN ALLES ANDERE FERTIG IST
-
-
-    # list_values = final_change_table.columns.keys()
-    # timestamp_column_list = [value for value in list_values if keyword_timestamp_update in value]
-    #
-    # if len(timestamp_column_list)>0:
-    #     val_time_col = timestamp_column_list[0]
-    #     timestamp_column = final_change_table.c[val_time_col]
-    #     # s = select([final_change_table]).where(final_change_table.c[columns_change_final].like(value_old))
-    #     s = select([final_change_table]).where(final_change_table.c[columns_change_final] == value_old)
-    #     result_timestamp = connection.execute(s)
-    #
-    #     u = update(final_change_table).where(final_change_table.c[timestamp_column] != '')
-    #     u = u.values({final_change_table.c[timestamp_column]: timestamp})
-    #     result_timestamp = connection.execute(u)
-
-
-
-
     # changes the normal table data according to users inputs
     u = update(final_change_table).where(final_change_table.c[columns_change] == value_old)
     u = u.values({final_change_table.c[columns_change]:new_value})
     result = connection.execute(u)
-
-    # changes timestamps if there are any so that the table keeps track of changes
-    # alle PKs anzeigen, filtern der tabelle - spalte vor dem ändern nach dem alten value
-    # die entsprechenden Zeilen dann den update timestamp auf das aktuelle Dateum abändern
-    # für debugging Gründe erstmal nachdem die Änderungen vorgenommen wurden (wenns geht dann davor einbauen)
